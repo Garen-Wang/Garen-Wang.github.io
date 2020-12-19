@@ -104,7 +104,8 @@ theme: melody
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repo: 
+  repo: https://github.com/Garen-Wang/garen-wang.github.io
+  branch: master
 
 # configuration of hexo-theme-melody
 # ---------------
