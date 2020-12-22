@@ -13,7 +13,7 @@ timezone: ''
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://example.com/child' and root as '/child/'
-url: http://example.com
+url: https://121.36.2.124
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -103,9 +103,12 @@ theme: melody
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
-  type: git
+- type: git
   repo: https://github.com/Garen-Wang/garen-wang.github.io
   branch: master
+- type: git
+  repo: root@121.36.2.124:/var/repo/.git
+
 
 # configuration of hexo-theme-melody
 # ---------------
