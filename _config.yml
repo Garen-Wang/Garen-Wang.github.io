@@ -103,11 +103,12 @@ theme: melody
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
-- type: git
-  repo: https://github.com/Garen-Wang/garen-wang.github.io
+  # - type: git
+  #   repo: https://github.com/Garen-Wang/garen-wang.github.io
+  #   branch: master
+  type: git
+  repo: root@121.36.2.124:/var/repo/blog.git
   branch: master
-- type: git
-  repo: root@121.36.2.124:/var/repo/.git
 
 
 # configuration of hexo-theme-melody
