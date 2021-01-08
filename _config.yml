@@ -110,3 +110,22 @@ deploy:
     repo: root@121.36.2.124:/var/repo/blog.git
     branch: master
 
+qiniu:
+  offline: false
+  sync: true
+  bucket: garen-wang-pics
+  # secret_file: sec/qn.json or C:
+  access_key: rujBqLear0WpVOraTbLhebel31EYoah2z4IhMxY0
+  secret_key: s0hWDynQsDp_wXekyKaeAtDW73q9-TlYTC-ilAvT
+  dirPrefix: static
+  urlPrefix: http://qmma78kfi.hn-bkt.clouddn.com/static
+  up_host: http://upload.qiniu.com
+  local_dir: static
+  update_exist: true
+  image: 
+    folder: images
+    extend: 
+  js:
+    folder: js
+  css:
+    folder: css

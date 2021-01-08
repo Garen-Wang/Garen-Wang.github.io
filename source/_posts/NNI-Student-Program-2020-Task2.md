@@ -15,7 +15,9 @@ CIFAR10数据集共有60000张分辨率为32*32的彩色图像，分为十类，
 
 50000张图像构成训练集，10000张图像构成测试集。
 
-![](./NNI-Student-Program-2020-Task2/1.png)
+{% qnimg NNI-Student-Program-2020-Task2/1.png %}
+
+{% asset_img NNI-Student-Program-2020-Task2/1.png %}
 
 ### 实现流程
 

@@ -144,13 +144,19 @@ nni.report_final_result(test_acc)
 
 如图，10次trial都成功地完成，其中id为9的trial达到了最高准确率，达99.34%。
 
-![](./NNI-Student-Program-2020-Task1/1.png)
+{% qnimg NNI-Student-Program-2020-Task1/1.png %}
 
-![](./NNI-Student-Program-2020-Task1/4.png)
+{% asset_img NNI-Student-Program-2020-Task1/1.png %}
+
+{% qnimg NNI-Student-Program-2020-Task1/4.png %}
+
+{% asset_img NNI-Student-Program-2020-Task1/4.png %}
 
 #### 超参组合可视化
 
-![](./NNI-Student-Program-2020-Task1/5.png)
+{% qnimg NNI-Student-Program-2020-Task1/5.png %}
+
+{% asset_img NNI-Student-Program-2020-Task1/5.png %}
 
 图中，准确率更高的组合用红线表示，而准确率低的用绿线表示。
 
@@ -158,18 +164,26 @@ nni.report_final_result(test_acc)
 
 #### 训练结果可视化
 
-![](./NNI-Student-Program-2020-Task1/3.png)
+{% qnimg NNI-Student-Program-2020-Task1/3.png %}
+
+{% asset_img NNI-Student-Program-2020-Task1/3.png %}
 
 Default Metric
 
-![](./NNI-Student-Program-2020-Task1/2.png)
+{% qnimg NNI-Student-Program-2020-Task1/2.png %}
+
+{% asset_img NNI-Student-Program-2020-Task1/2.png %}
 
 Sorted Default Metric
 
-![](./NNI-Student-Program-2020-Task1/6.png)
+{% qnimg NNI-Student-Program-2020-Task1/6.png %}
+
+{% asset_img NNI-Student-Program-2020-Task1/6.png %}
 
 Trial Duration
 
-![](./NNI-Student-Program-2020-Task1/7.png)
+{% qnimg NNI-Student-Program-2020-Task1/7.png %}
+
+{% asset_img NNI-Student-Program-2020-Task1/7.png %}
 
 Intermediate Results
