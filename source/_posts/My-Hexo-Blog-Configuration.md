@@ -11,9 +11,9 @@ date: 2021-01-08 22:04:28
 
 军训汇操在早上结束了，回到宿舍一打开手机就连收到三条信息，终于给爷备案好了！
 
-{% qnimg WeChat Image_20210108221637.jpg %}
+{% qnimg My-Hexo-Blog-Configuration/WeChat_Image_20210108221637.jpg %}
 
-{% qnimg WeChat Image_20210108221657.jpg %}
+{% qnimg My-Hexo-Blog-Configuration/WeChat_Image_20210108221657.jpg %}
 
 我啪的一下就开始准备我的博客了，很快啊！
 
@@ -135,7 +135,7 @@ mathjax: true
 
 这样就可以用上LaTeX语法写行内公式和行间公式了。
 
-{% qnimg 2021-01-08_23-29.png %}
+{% qnimg My-Hexo-Blog-Configuration/2021-01-08_23-29.png %}
 
 ## 搜索框
 
@@ -191,11 +191,11 @@ valine:
 
 在LeanCloud后台看到的数据就是这样的：
 
-{% qnimg 2021-01-08_22-44.png %}
+{% qnimg My-Hexo-Blog-Configuration/2021-01-08_22-44.png %}
 
 之后部署一下就可以看到效果了！
 
-{% qnimg 2021-01-08_22-42.png %}
+{% qnimg My-Hexo-Blog-Configuration/2021-01-08_22-42.png %}
 
 ## 七牛云图床
 
@@ -251,7 +251,7 @@ qiniu:
 
 啊？什么？我今天没赶DDL？
 
-{% WeChat Image_20210108221702.jpg %}
+{% qnimg My-Hexo-Blog-Configuration/WeChat_Image_20210108221702.jpg %}
 
 其实明天是数创大作业的deadline。。。
 
@@ -259,7 +259,7 @@ qiniu:
 
 熬夜继续爆肝大作业，还不如早点休息。。。
 
-{% 84869490_p0.jpg %}
+{% qnimg My-Hexo-Blog-Configuration/84869490_p0.jpg %}
 
 ## Reference
 
