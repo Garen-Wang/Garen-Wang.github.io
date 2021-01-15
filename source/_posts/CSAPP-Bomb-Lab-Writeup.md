@@ -694,10 +694,85 @@ __int64 __fastcall phase_6(__int64 a1)
 
 别忘记了前面有一个`x = 7 - x;`，所以最终的答案就是`4 3 2 1 6 5`。
 
+## secret phase
+~~待补充，今天晚点再做了补上。（咕咕咕）~~
+
+Jan 15 upd：来补上secret phase了！
+
+### 怎么进secret phase
+
+`secret_phase`函数的入口其实在`phase_defused`里面。
+
+懒得看汇编，直接用IDA Pro做了。~~其实反汇编出来的跟看汇编也差不多~~
+
+{% qnimg CSAPP-Bomb-Lab-Writeup/phase_defused(IDA).png %}
+
+这里看到一个`num_input_strings`，是个在bss段上的全局变量。同时，`sscanf`所读入的那个地址，也是在bss段上的，初始化都是0，不过可能会在函数执行的时候被修改。
+
+那到底是什么时候被修改的？我们分别用gdb设断点看一看。
+
+{% qnimg CSAPP-Bomb-Lab-Writeup/secret_phase(num_input_strings).png %}
+
+可以发现这个变量的意思就是记录现在是第几关。所以当第六关的时候就可以了。
+
+{% qnimg CSAPP-Bomb-Lab-Writeup/secret_phase(input_strings).png %}
+
+可以发现是我们在打phase 4的时候，这个`input_strings + 240`所在的字符串就更改成了我们输入的内容。并且后面不会再更改。
+
+所以我们只需要在第四阶段，在第三个位置上输入一个`DrEvil`，就可以在过完第六关之后触发了。
+
+### 分析
+
+{% qnimg CSAPP-Bomb-Lab-Writeup/secret_phase(IDA).png %}
+
+要使这个`func7`返回2，并且输入的数字小于等于0x3e8 + 1，就可以通关了。
+
+这里有一个`&n1`，点进去看看，又是在data段，跟前面的`&node1`很类似。并且，`n1`后面也紧跟着其他类似的东西，应该又是一个struct。
+
+我们用gdb看一看：
+
+{% qnimg CSAPP-Bomb-Lab-Writeup/secret_phase(n1).png %}
+
+可以发现，每个结构体储存了两个地址，我们做下笔记：
+
+```
+    n1(n21, n22)  36
+    n21(n31, n32) 8
+    n22(n33, n34) 50
+    n32(n43, n44) 22
+    n33(n45, n46) 45
+    n31(n41, n42) 6
+    n34(n47, n48) 107
+    n45 40
+    n41 1
+    n47 99
+    n44 35
+    n42 7
+    n43 20
+    n46 47
+    n48 1001
+```
+
+这种一对二的关系，其实就是二叉树：
+
+```
+                n1
+      n21             n22
+  n31     n32     n33     n34
+n41 n42 n43 n44 n45 n46 n47 n48
+```
+
+{% qnimg CSAPP-Bomb-Lab-Writeup/func7(IDA).png %}
+
+想让`func7`为2，首先要落向左边，然后落向右边，然后返回0，这样就能构造出`2 * (2 * 0 + 1) = 2`了。
+
+最后的返回0，也可以走左边再返回0，所以`n32`和`n43`的值都是没问题的，即我们有20跟22两个答案。
+
+
 终于通关了！芜湖起飞！
 
 {% qnimg CSAPP-Bomb-Lab-Writeup/success.png %}
 
-## secret phase
+{% qnimg CSAPP-Bomb-Lab-Writeup/success1.png %}
 
-待补充，今天晚点再做了补上。（咕咕咕）
+{% qnimg CSAPP-Bomb-Lab-Writeup/success2.png %}
