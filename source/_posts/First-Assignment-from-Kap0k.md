@@ -287,3 +287,91 @@ qsort:
 ```
 
 没编译过，不过觉得问题不大。但愿如此（x
+
+Jan 17 upd：重新用熟悉的AT&T语法自己手写了一遍汇编快排，这次用了指针，看上去比较清晰：
+
+```
+.globl _start
+.section .data
+    array:
+        .int 1, 1, 4, 5, 1, 4, 2, 0, 7, 7
+
+.section .text
+qsort:
+    # rdi: int* start, rsi: int* end
+    pushq %rbp
+    movq %rsp, %rbp
+    movq %rsi, %rax
+    subq %rdi, %rax
+    sar %rax
+    addq %rdi, %rax
+    movq %rdi, %r8 # start(backup)
+    movq %rsi, %r9 # end(backup)
+    movq %rdi, %rbx # i
+    movq %rsi, %rcx # j
+    jmp _init_loop
+ 
+_init_loop:
+    cmpq %rbx, %rcx
+    jg _recursive1
+    jmp _i_loop
+
+_i_loop:
+    cmpq (%rbx), (%rax)
+    jge _j_loop
+    incq %rbx
+    jmp _i_loop
+
+_j_loop:
+    cmpq (%rcx), (%rax)
+    jle _swap
+    decq %rcx
+    jmp _j_loop
+
+_swap:
+    cmpq %rbx, %rcx
+    jg _init_loop
+    movq (%rbx), r10
+    movq (%rcx), r11
+    movq r10, (%rcx)
+    movq r11, (%rbx)
+    incq %rbx
+    decq %rcx
+
+_recursive1:
+    cmpq %rbx, %r9
+    jge _recursive2
+    movq %rbx, %rdi
+    movq %r9, %rsi
+    call _qsort
+    jmp _recursive2
+
+_recursive2:
+    cmpq %r8, %rcx
+    jge _after_loop
+    movq %r8, %rdi
+    movq %rcx, %rsi
+    call _qsort
+    jmp _after_loop
+
+_after_loop:
+    movq %rbp, %rsp
+    popq %rbp
+    retq
+
+_start:
+    movq array, %rdi
+    lea (array, 10, 4), %rsi
+    call _qsort
+    movl $0, %edi
+    movl $60, %eax
+    syscall
+```
+
+## Reference
+
+https://blog.csdn.net/flyoutsan/article/details/62237779
+
+https://www.cnblogs.com/orlion/p/5765339.html
+
+还有CSAPP的Chapter 3。不愧是CSAPP。
