@@ -87,6 +87,26 @@ $ ld -m elf_i386 -s -o shellcode helloworld.o
 
 不过这样编译过后会发现机器码里面一大堆都是`\x00`，不符合要求；并且存在常量字符串，没法在shellcode中跳到里面的奇妙地址来读取字符串。
 
+### Inspiration
+
+在搜索如何从汇编到shellcode的过程中，看到了一个教怎么弄出shell的教程，它的汇编是这样的：
+
+```
+xor    %eax,%eax
+push   %eax
+push   $0x68732f2f
+push   $0x6e69622f
+mov    %esp,%ebx
+push   %eax
+push   %ebx
+mov    %esp,%ecx
+mov    $0xb,%al
+int    $0x80
+```
+
+仔细研究它的写法，我们下面的解决方案就来自这段汇编的细节。（其实改编下就能用了）
+
+
 ### 解决方案
 
 #### 去除\x00
@@ -112,11 +132,158 @@ $ ld -m elf_i386 -s -o shellcode helloworld.o
 
 缺点是`testfile`必须要先存在然后才能写进去，这应该和我在`sys_open`的时候，`flags`的取值有关系。有时间的话再去探究这个参数到底该怎么取。
 
-{% qnimg First-Assignment-From-Kap0k/objdump.png %}
+{% qnimg First-Assignment-from-Kap0k/objdump.png %}
 
-最后通过一个在网上找到的命令，直接提取出了机器码，生成了shellcode：
+最后通过一个在网上找到的命令，直接提取出了机器码，生成了shellcode，省去了一个字节一个字节手抄出来的麻烦：
 
 ```
 $ objdump -d ./shellcode|grep '[0-9a-f]:'|grep -v 'file'|cut -f2 -d:|cut -f1-6 -d' '|tr -s ' '|tr '\t' ' '|sed 's/ $//g'|sed 's/ /\\x/g'|paste -d '' -s |sed 's/^/"/'|sed 's/$/"/g'
 ```
 
+## 汇编快排
+
+直接用汇编写出快排我做不到，就先写个c出来吧。
+
+```c++
+#include <stdio.h>
+#include <unistd.h>
+int a[] = {5, 4, 3, 2, 1, 1, 4, 5, 1, 4};
+
+void swap(int *a, int *b) {
+    int t = *a;
+    *a = *b;
+    *b = t;
+}
+void qsort(int *start, int *end) {
+    int len = (end - start);
+    int pivot = *(start + (len >> 1));
+    int *i = start, *j = end;
+    while(i <= j) {
+        while(*i < pivot) i++;
+        while(*j > pivot) j--;
+        if(i <= j) swap(i++, j--);
+    }
+    if(i < end) qsort(i, end);
+    if(start < j) qsort(start, j);
+}
+int main() {
+    qsort(a, a + 10);
+    for(int i = 0; i < 10; i++) printf("%d ", a[i]);
+    printf("\n");
+    return 0;
+}
+```
+后来发现汇编里面要写指针的话就好麻烦，干脆重新改一改：
+
+```c++
+void qsort(int *a, int l, int r) {
+    int mid = (l + r) >> 1;
+    int pivot = a[mid];
+    int i = l, j = r;
+    while(i <= j) {
+        while(a[i] < pivot) i++;
+        while(a[j] > pivot) j--;
+        if(i <= j) swap(a, i++, j--);
+    }
+    if(i < r) qsort(a, i, r);
+    if(l < j) qsort(a, l, j);
+    return;
+}
+```
+
+看了师傅的代码，发现可以用r8到r11的这4个寄存器来存，顿时方便了很多。~~本来还以为要一直存在栈上~~
+
+```
+global _start
+
+section .data
+    a: dd 1, 1, 4, 5, 1, 4, 2, 0, 7, 7
+section .text
+_start:
+    mov rdi, a
+    xor rsi, rsi
+    mov rdx, 10
+    call qsort
+    mov rax, 60
+    xor rdi, rdi
+    syscall
+
+swap:
+    ; rdi: a, rsi: i, rdx: j
+    mov ebx, QWORD [rdi + 4 * rsi]
+    mov ecx, QWORD [rdi + 4 * rdx]
+    mov QWORD [rdi + 4 * rsi], ecx
+    mov QWORD [rdi + 4 * rdx], ebx
+
+qsort:
+    ; rdi: a, rsi: start, rdx: end
+    mov r8, rsi ; start
+    mov r9, rdx ; end
+    mov r10, r8 ; i
+    mov r11, r9 ; j
+    mov rbx, r9
+    add rbx, r8
+    sar rbx
+    mov ebx, DWORD [r8 + 4 * rbx]
+    loop:
+        cmp r10, r11
+        jg after_loop1
+        i_loop:
+            mov eax, DWORD [r8 + 4 * r10]
+            cmp eax, ebx
+            jge j_loop
+            inc r10
+            jmp i_loop
+        j_loop:
+            mov eax, DWORD [r8 + 4 * r11]
+            cmp eax, ebx
+            jle swap_i_j
+            dec r11
+            jmp j_loop
+        swap_i_j:
+            cmp r10, r11
+            jg loop
+            mov rdi, a
+            mov rsi, r10
+            mov rdx, r11
+            call swap
+            inc r8
+            dec r9
+            jmp loop
+    after_loop1:
+        cmp r10 r9
+        jge after_loop2
+        mov rdi, a
+        mov rsi, r10
+        mov rdx, r9
+        push r8
+        push r9
+        push r10
+        push r11
+        call qsort
+        pop r11
+        pop r10
+        pop r9
+        pop r8
+
+    after_loop2:
+        cmp r8 r11
+        jge return
+        mov rdi, a
+        mov rsi, r8
+        mov rdx, r11
+        push r8
+        push r9
+        push r10
+        push r11
+        call qsort
+        pop r11
+        pop r10
+        pop r9
+        pop r8
+    return:
+        ret
+
+```
+
+没编译过，不过觉得问题不大。但愿如此（x

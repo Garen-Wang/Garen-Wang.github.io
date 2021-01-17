@@ -108,7 +108,7 @@ je 0x??????
 
 ### IDA
 
-{% qnimg CSAPP-Bomb-Lab-Writeup/qnimg phase2(IDA).png %}
+{% qnimg CSAPP-Bomb-Lab-Writeup/phase2(IDA).png %}
 
 输入六个整数，需要符合里面的这个规则：
 ```c++
