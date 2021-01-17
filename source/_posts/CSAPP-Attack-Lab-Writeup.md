@@ -110,6 +110,21 @@ retq
 ```
 
 {% qnimg CSAPP-Attack-Lab-Writeup/success22.png %}
+
+Jan 17 upd：第二种shellcode的汇编也可以这样写：
+
+```
+movq 0x006044e4, %rdi
+pushq $0x004017ec
+retq
+```
+
+mov和lea的区别，就是mov会做一次dereference，而lea只进行计算。
+
+只要mov的src不是一个immediate（最前面有一个$号）而是一个地址，默认都会把src这个地址dereference之后的值赋给dest。而lea就只是单纯计算之后把结果赋给dest。
+
+对寄存器的dereference，还是打一个括号。上述强调的是immediate和memory的一个区别。
+
 ### Level 3
 
 第三个要求我们继续利用那个漏洞跳入`touch3`，顺便携带一个字符串地址，还要跑过`hexmatch`函数的检测。

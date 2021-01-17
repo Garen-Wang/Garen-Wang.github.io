@@ -361,7 +361,7 @@ _after_loop:
 
 _start:
     movq array, %rdi
-    lea (array, 10, 4), %rsi
+    leaq (array, 10, 4), %rsi
     call _qsort
     movl $0, %edi
     movl $60, %eax
