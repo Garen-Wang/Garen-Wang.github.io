@@ -303,7 +303,7 @@ qsort:
     movq %rsp, %rbp
     movq %rsi, %rax
     subq %rdi, %rax
-    sar %rax
+    sarq %rax
     addq %rdi, %rax
     movq %rdi, %r8 # start(backup)
     movq %rsi, %r9 # end(backup)
@@ -312,24 +312,24 @@ qsort:
     jmp _init_loop
  
 _init_loop:
-    cmpq %rbx, %rcx
+    cmpq %rcx, %rbx
     jg _recursive1
     jmp _i_loop
 
 _i_loop:
-    cmpq (%rbx), (%rax)
+    cmpq (%rax), (%rbx)
     jge _j_loop
     incq %rbx
     jmp _i_loop
 
 _j_loop:
-    cmpq (%rcx), (%rax)
+    cmpq (%rax), (%rcx)
     jle _swap
     decq %rcx
     jmp _j_loop
 
 _swap:
-    cmpq %rbx, %rcx
+    cmpq %rcx, %rbx
     jg _init_loop
     movq (%rbx), r10
     movq (%rcx), r11
@@ -339,7 +339,7 @@ _swap:
     decq %rcx
 
 _recursive1:
-    cmpq %rbx, %r9
+    cmpq %r9, %rbx
     jge _recursive2
     movq %rbx, %rdi
     movq %r9, %rsi
@@ -347,7 +347,7 @@ _recursive1:
     jmp _recursive2
 
 _recursive2:
-    cmpq %r8, %rcx
+    cmpq %rcx, %r8
     jge _after_loop
     movq %r8, %rdi
     movq %rcx, %rsi
@@ -366,6 +366,7 @@ _start:
     movl $0, %edi
     movl $60, %eax
     syscall
+
 ```
 
 ## Reference

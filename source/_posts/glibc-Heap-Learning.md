@@ -155,14 +155,3 @@ unsorted bin中的chunk没有大小规定，也没有大小顺序，一切都是
 ### malloc的工作流程
 
 ### free的工作流程
-
-## 堆有关的攻击手段
-
-### UAF
-
-### Heap Overflow
-
-### Unlink
-
-### Fastbin Attack
-

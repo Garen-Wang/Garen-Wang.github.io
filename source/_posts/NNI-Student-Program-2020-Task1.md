@@ -187,3 +187,22 @@ Trial Duration
 {% asset_img NNI-Student-Program-2020-Task1/7.png %}
 
 Intermediate Results
+
+---
+
+Jan 23rd upd: 楼下的评论说的有道理，把评论搬上来......
+
+在跑NNI的时候，有时经常遇见任何一个trial跑几秒就失败的情况。
+
+顺着实验文件夹里面的`stderr`去看，原来报错是这个：
+
+```
+Error: mkl-service + Intel(R) MKL: MKL_THREADING_LAYER=INTEL is incompatible with libgomp.so.1 library.
+    Try to import numpy first or set the threading layer accordingly. Set MKL_SERVICE_FORCE_INTEL to force it.
+```
+
+解决方法是按它所说的：在终端中设置下：
+
+```sh
+$ export MKL_SERVICE_FORCE_INTEL=1
+```
