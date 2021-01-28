@@ -2,7 +2,7 @@
 title: First Assignment from Kap0k
 mathjax: true
 date: 2021-01-16 00:26:45
-tags: Kap0k, pwn
+tags: Kap0k pwn
 ---
 
 ## 手撕shellcode
