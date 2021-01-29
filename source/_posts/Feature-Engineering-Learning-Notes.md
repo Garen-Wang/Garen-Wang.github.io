@@ -77,7 +77,3 @@ pd.get_dummies(data,columns=['pet'])
 #### 时间数据
 
 时间数据最简便的是用`pandas`中的`DatetimeIndex`直接做。
-
-### 特征降维
-
-待补充
