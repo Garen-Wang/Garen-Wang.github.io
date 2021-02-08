@@ -118,7 +118,7 @@ qiniu:
   access_key: rujBqLear0WpVOraTbLhebel31EYoah2z4IhMxY0
   secret_key: s0hWDynQsDp_wXekyKaeAtDW73q9-TlYTC-ilAvT
   dirPrefix: static
-  urlPrefix: http://qmma78kfi.hn-bkt.clouddn.com/static
+  urlPrefix: http://qiniu.garen-wang.cn/static
   up_host: http://upload.qiniu.com
   local_dir: static
   update_exist: true
