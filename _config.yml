@@ -129,3 +129,21 @@ qiniu:
     folder: js
   css:
     folder: css
+
+live2d:
+  enable: True
+  scriptFrom: local
+  pluginRootPath: live2dw/
+  pluginJsPath: lib/
+  pluginModelPath: assets/
+  tagMode: false
+  log: false
+  model:
+    use: live2d-widget-theresa
+  display:
+    position: left
+    width: 150
+    height: 300
+  react:
+    opacity: 0.5
+

@@ -1,0 +1,88 @@
+{
+	"version":"Sample 1.0.0",
+	"model":"theresa.model.moc",
+	"textures":[
+		"assets/theresa.2048/texture_00.png"
+	],
+	"motions":{
+		"shake":[
+			{"file":"mtn/1.mtn","text":155060}
+		],
+		"flick_head":[
+			{"file":"mtn/2.mtn","text":155061}
+		],
+		"tap_face":[
+			{"file":"mtn/2.mtn","text":155061}
+		],
+		"tap_breast":[
+			{"file":"mtn/4.mtn","text":155063}
+		],
+		"tap_belly":[
+			{"file":"mtn/4.mtn","text":155063}
+		],
+		"tap_leg":[
+			{"file":"mtn/4.mtn","text":155063}
+		],
+		"mail":[
+			{"file":"mtn/idle.mtn"}
+		],
+		"morning":[
+			{"file":"mtn/idle.mtn"}
+		],
+		"idle":[
+			{"file":"mtn/9.mtn","text":155068},
+			{"file":"mtn/idle.mtn"}
+		],
+		"activity":[
+			{"file":"mtn/9.mtn","text":155068}
+		],
+		"born":[
+			{"file":"mtn/15.mtn","text":155074}
+		],
+		"friend":[
+			{"file":"mtn/idle.mtn"}
+		],
+		"afternoon":[
+			{"file":"mtn/idle.mtn"}
+		],
+		"evening":[
+			{"file":"mtn/idle.mtn"}
+		]
+	},
+	"physics":"physics.json",
+	"project_settings":"embed://111.json",
+	"name":"",
+	"layout":
+	{
+		"image_height": 920,
+		"image_center_y": 0.45,
+		"head_center_y": 0.25,
+		"time_to_max_speed": 0.08,
+		"face_max_angle": 20
+	},
+	"hit_areas":
+	[
+		{"name":"head", "id":"D_CORE_HEAD"},
+		{"name":"face", "id":"D_CORE_FACE"},
+		{"name":"breast", "id":"D_CORE_BREAST"},
+		{"name":"belly", "id":"D_CORE_BELLY"},
+		{"name":"leg", "id":"D_CORE_LEG"}
+	],
+	"motion_settings":
+	{
+		"idle":{"cd":20},
+		"morning":{"cd":3600},
+		"afternoon":{"cd":3600},
+		"evening":{"cd":3600},
+		"activity":{"cd":3600},
+		"friend":{"cd":18000},
+		"mail":{"cd":18000},
+		"tap_breast":{"cd":10},
+		"tap_belly":{"cd":10},
+		"tap_leg":{"cd":10},
+		"tap_face":{"cd":10},
+		"flick_head":{"cd":20},
+		"shake":{"cd":60},
+		"born":{"cd":60}
+	}
+}
